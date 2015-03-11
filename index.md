@@ -1,0 +1,131 @@
+---
+title       : Race the Quarter Mile
+subtitle    : Prediction based on the mtcars dataset
+author      : ajtm
+job         : Coursera Assignment
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+--- .class #id
+
+<style>
+.title-slide {
+  background-color: #bbbbbb; /* #EDE0CF; ; #CA9F9D*/
+}
+</style>
+<style>
+.class {
+  background-color: #bbbbbb; /* #EDE0CF; ; #CA9F9D*/
+}
+</style>
+<style>
+em {
+  font-style: italic
+}
+</style><style>
+strong {
+  font-weight: bold
+}
+</style>
+<style>
+sup {
+    vertical-align: super;
+    font-size: smaller;
+} 
+</style>
+
+## The Quarter Mile
+
+<br/>
+The <strong>Quarter Mile</strong> has been an important distance when it comes
+to racing. <br/>For Humans and for Cars<sup>1</sup>.
+<br/>(For <em>Humans</em>, the quarter mile has been replaced by
+<em>400 meters</em>).
+
+
+<br/>
+In the case of Cars, a <em>drag race</em> is usually (but not always) a
+quarter of a mile<sup>2</sup>.
+<br/>The race starts from standing and measures the time taken
+to cross the quarter mile mark.
+<br/>So, quarter mile time has also become a sort of
+benchmark for super fast cars.
+<br/>
+<br/>
+<br/>
+[1] http://en.wikipedia.org/wiki/Quarter_mile_race
+<br/>[2] http://en.wikipedia.org/wiki/Drag_racing
+
+--- .class #id 
+
+## The Dataset
+
+The mtcars<sup>3</sup> dataset contains a list of cars and certain aspects
+of their performance measurements. One of these is the <strong>Quarter Mile
+time</strong>.
+<br/>
+
+There are several variables, some of the important ones being <em>Number of
+cylinders, Gross Horsepower, Transmission type, Weight, Engine 
+Displacement and Configuration, Number of Gears and Carburetors</em>, to
+name some.
+
+<br/>
+The data is for cars from the <em>1973-74</em> and so can be expected to
+be a bit different from the cars we see today.
+</br>
+</br>
+
+[3] https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html
+
+--- .class #id
+
+## Model and Prediction
+
+We create a simple Linear Model with the <em>mtcars</em> dataset. The outcome
+is the Quarter Mile time, while the predictors used are <em>Transmission
+Type, Number of Cylinders, Weight and Gross Horsepower</em>.
+
+This is probably not the best model for the dataset, but it does serve the
+purpose for our demonstration. The coefficients from the model are shown below.
+
+
+```r
+mod <- lm(qsec~am+wt+hp+cyl, mtcars)
+mod$coef
+```
+
+```
+## (Intercept)          am          wt          hp         cyl 
+## 22.75667016 -1.69512549  0.73852298 -0.01088375 -0.80788347
+```
+
+We get an adjusted R-squared value of 0.783
+from the model, which is not very high.
+
+--- .class #id
+
+## Using the Shiny implementation
+
+We use Shiny<sup>4</sup> to implement an interactive web-page. On the side-bar
+there are controls for the predictors.
+- A *drop down* menu specifies the
+Transmission Type to be <em>Automatic</em> or <em>Manual</em>.
+- A set of
+*radio buttons* select the Number of Cylinders to be <em>4, 6 or 8</em>.
+- Two <em>slider input</em> widgets let the Weight and Gross Horsepower to be
+specified.
+    - Weight varies between <em>1.5 and 5 tonnes</em> in steps of 0.1.
+    - Horsepower varies from <em>55 to 355</em> in steps of 1.
+
+The predicted result - <em>seconds to travel the quarter mile</em> - will
+be updated immediately in the main panel. This will update every time one
+of the parameters in the sidebar is changed and does not need any additional
+trigger or button to be pressed.
+
+[4] http://shiny.rstudio.com/
+
+

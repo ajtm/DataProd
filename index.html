@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Race the Quarter Mile</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Race the Quarter Mile">
+  <meta name="author" content="ajtm">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Race the Quarter Mile</h1>
+    <h2>Prediction based on the mtcars dataset</h2>
+    <p>ajtm<br/>Coursera Assignment</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <style>
+.title-slide {
+  background-color: #bbbbbb; /* #EDE0CF; ; #CA9F9D*/
+}
+</style>
+
+<style>
+.class {
+  background-color: #bbbbbb; /* #EDE0CF; ; #CA9F9D*/
+}
+</style>
+
+<style>
+em {
+  font-style: italic
+}
+</style><style>
+strong {
+  font-weight: bold
+}
+</style>
+
+<style>
+sup {
+    vertical-align: super;
+    font-size: smaller;
+} 
+</style>
+
+<h2>The Quarter Mile</h2>
+
+<p><br/>
+The <strong>Quarter Mile</strong> has been an important distance when it comes
+to racing. <br/>For Humans and for Cars<sup>1</sup>.
+<br/>(For <em>Humans</em>, the quarter mile has been replaced by
+<em>400 meters</em>).</p>
+
+<p><br/>
+In the case of Cars, a <em>drag race</em> is usually (but not always) a
+quarter of a mile<sup>2</sup>.
+<br/>The race starts from standing and measures the time taken
+to cross the quarter mile mark.
+<br/>So, quarter mile time has also become a sort of
+benchmark for super fast cars.
+<br/>
+<br/>
+<br/>
+[1] <a href="http://en.wikipedia.org/wiki/Quarter_mile_race">http://en.wikipedia.org/wiki/Quarter_mile_race</a>
+<br/>[2] <a href="http://en.wikipedia.org/wiki/Drag_racing">http://en.wikipedia.org/wiki/Drag_racing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The Dataset</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The mtcars<sup>3</sup> dataset contains a list of cars and certain aspects
+of their performance measurements. One of these is the <strong>Quarter Mile
+time</strong>.
+<br/></p>
+
+<p>There are several variables, some of the important ones being <em>Number of
+cylinders, Gross Horsepower, Transmission type, Weight, Engine 
+Displacement and Configuration, Number of Gears and Carburetors</em>, to
+name some.</p>
+
+<p><br/>
+The data is for cars from the <em>1973-74</em> and so can be expected to
+be a bit different from the cars we see today.
+</br>
+</br></p>
+
+<p>[3] <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html">https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Model and Prediction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We create a simple Linear Model with the <em>mtcars</em> dataset. The outcome
+is the Quarter Mile time, while the predictors used are <em>Transmission
+Type, Number of Cylinders, Weight and Gross Horsepower</em>.</p>
+
+<p>This is probably not the best model for the dataset, but it does serve the
+purpose for our demonstration. The coefficients from the model are shown below.</p>
+
+<pre><code class="r">mod &lt;- lm(qsec~am+wt+hp+cyl, mtcars)
+mod$coef
+</code></pre>
+
+<pre><code>## (Intercept)          am          wt          hp         cyl 
+## 22.75667016 -1.69512549  0.73852298 -0.01088375 -0.80788347
+</code></pre>
+
+<p>We get an adjusted R-squared value of 0.783
+from the model, which is not very high.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Using the Shiny implementation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We use Shiny<sup>4</sup> to implement an interactive web-page. On the side-bar
+there are controls for the predictors.</p>
+
+<ul>
+<li>A <em>drop down</em> menu specifies the
+Transmission Type to be <em>Automatic</em> or <em>Manual</em>.</li>
+<li>A set of
+<em>radio buttons</em> select the Number of Cylinders to be <em>4, 6 or 8</em>.</li>
+<li>Two <em>slider input</em> widgets let the Weight and Gross Horsepower to be
+specified.
+
+<ul>
+<li>Weight varies between <em>1.5 and 5 tonnes</em> in steps of 0.1.</li>
+<li>Horsepower varies from <em>55 to 355</em> in steps of 1.</li>
+</ul></li>
+</ul>
+
+<p>The predicted result - <em>seconds to travel the quarter mile</em> - will
+be updated immediately in the main panel. This will update every time one
+of the parameters in the sidebar is changed and does not need any additional
+trigger or button to be pressed.</p>
+
+<p>[4] <a href="http://shiny.rstudio.com/">http://shiny.rstudio.com/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title=''>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The Dataset'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Model and Prediction'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Using the Shiny implementation'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
